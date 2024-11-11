@@ -15,4 +15,3 @@ function muudaTeksti() {
 }
 
 let koodiTekst = document.getElementById("kood")
-

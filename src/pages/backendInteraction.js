@@ -56,13 +56,8 @@ async function createRoom(roomId) {
             body: JSON.stringify(payload)
         });
 
-        const data = await response.json();
-        if (response.ok) {
-            return data;
-        } else {
-            console.error('Failed to create room:', data);
-            throw new Error(`Failed to create room: ${data.message || 'Unknown error'}`);
-        }
+        return await response.json();
+
     } catch (error) {
         console.error('Error sending POST request:', error);
         throw error;

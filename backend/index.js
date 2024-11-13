@@ -8,7 +8,7 @@ const path          = require('path');
 const cors          = require('cors');
 const { promisify } = require('util');
 
-const app  = express();
+const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -61,7 +61,7 @@ app.post('/room', async (req, res) => {
     const { roomId, userId } = req.body;
 
     if (!roomId || !userId) {
-        return res.status(400).json({
+        return res.status(200).json({
             error: "Room ID and User ID are required!"
         });
     }
@@ -69,13 +69,13 @@ app.post('/room', async (req, res) => {
     try {
 
         await dbRun('INSERT INTO rooms (roomId, creatorUserId, text, lastActivity) VALUES (?, ?, ?, ?)', [roomId, userId, "", Date.now()]);
-        res.status(201).json({
+        res.status(200).json({
             error: null,
         });
 
     } catch (err) {
         console.error('Error creating room:', err);
-        res.status(500).json({
+        res.status(200).json({
             error: err.message
         });
     }
@@ -86,7 +86,7 @@ app.patch('/room/:roomId', async (req, res) => {
     const { userId, text } = req.body;
 
     if (!userId || !text) {
-        return res.status(400).json({
+        return res.status(200).json({
             error: "User ID and Text are required!"
         });
     }
@@ -95,14 +95,14 @@ app.patch('/room/:roomId', async (req, res) => {
         const room = await dbGet('SELECT * FROM rooms WHERE roomId = ?', [roomId]);
 
         if (!room) {
-            return res.status(404).json({
+            return res.status(200).json({
                 error: "Room not found!"
             });
         }
 
         // Only the creator can edit the room text
         if (room.creatorUserId !== userId) {
-            return res.status(403).json({
+            return res.status(200).json({
                 error: "Only the creator can edit the room text!"
             });
         }
@@ -117,7 +117,7 @@ app.patch('/room/:roomId', async (req, res) => {
 
     } catch (err) {
         console.error('Error changing room text:', err);
-        res.status(500).json({
+        res.status(200).json({
             error: err.message
         });
     }
@@ -128,7 +128,7 @@ app.get('/room/:roomId', async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
-        return res.status(400).json({
+        return res.status(200).json({
             error: "User ID is required!",
             text: null
         });
@@ -138,7 +138,7 @@ app.get('/room/:roomId', async (req, res) => {
         const room = await dbGet('SELECT * FROM rooms WHERE roomId = ?', [roomId]);
 
         if (!room) {
-            return res.status(404).json({
+            return res.status(200).json({
                 error: "Room not found!",
                 text: null
             });
@@ -155,7 +155,7 @@ app.get('/room/:roomId', async (req, res) => {
 
     } catch (err) {
         console.error('Error fetching room text:', err);
-        res.status(500).json({
+        res.status(200).json({
             error: err.message,
             text: null
         });
@@ -166,7 +166,7 @@ app.get('/rooms', async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {
-        return res.status(400).json({
+        return res.status(200).json({
             error: "User ID is required!",
             roomIds: null
         });
@@ -176,7 +176,7 @@ app.get('/rooms', async (req, res) => {
         const rooms = await dbAll('SELECT roomId FROM rooms WHERE creatorUserId = ?', [userId]);
 
         if (rooms.length === 0) {
-            return res.status(404).json({
+            return res.status(200).json({
                 error: "No rooms found for this user!",
                 roomIds: null
             });
@@ -191,7 +191,7 @@ app.get('/rooms', async (req, res) => {
 
     } catch (err) {
         console.error('Error fetching rooms:', err);
-        res.status(500).json({
+        res.status(200).json({
             error: err.message,
             roomIds: null
         });

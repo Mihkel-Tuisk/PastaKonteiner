@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:3001';
+const BASE_URL = 'http://209.38.179.239:3001';
 const CREATE_ROOM_URL = `${BASE_URL}/room`;
 const SAVE_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOM_URL = `${BASE_URL}/room`;

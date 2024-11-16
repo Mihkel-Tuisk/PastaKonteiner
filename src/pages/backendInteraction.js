@@ -1,4 +1,4 @@
-const BASE_URL = 'http://127.0.0.1:3001';
+const BASE_URL = 'https://pastakonteiner.live/api';
 const CREATE_ROOM_URL = `${BASE_URL}/room`;
 const SAVE_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOM_URL = `${BASE_URL}/room`;
@@ -128,6 +128,7 @@ async function getRoomText(roomId) {
             },
         });
 
+
         return await response.json();
 
     } catch (error) {
@@ -170,7 +171,7 @@ async function getAllMyRooms() {
 
 async function doStuff() {
     console.log("------------------------------------------------");
-
+    
     const randomRoomId = generateRandomId(5);
     let ret1 = await createRoom(randomRoomId)
     if (ret1.error != null) {
@@ -202,4 +203,4 @@ async function doStuff() {
     }
 }
 
-// doStuff();
+//doStuff();

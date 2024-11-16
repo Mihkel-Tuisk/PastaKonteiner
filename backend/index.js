@@ -12,9 +12,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'https://pastakonteiner.live',  // or '*' for any origin (not recommended for production)
-    methods: ['GET', 'POST', 'PATCH'],  // specify allowed methods
-    allowedHeaders: ['Content-Type']  // specify allowed headers
+    origin: ['https://pastakonteiner.live', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PATCH'],
+    allowedHeaders: ['Content-Type']
 }));
 
 const dbFolder = path.join(__dirname, 'db');

@@ -11,7 +11,11 @@ const { promisify } = require('util');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://pastakonteiner.live',  // or '*' for any origin (not recommended for production)
+    methods: ['GET', 'POST', 'PATCH'],  // specify allowed methods
+    allowedHeaders: ['Content-Type']  // specify allowed headers
+}));
 
 const dbFolder = path.join(__dirname, 'db');
 const dbPath   = path.join(dbFolder, 'rooms.db');

@@ -12,7 +12,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ['https://pastakonteiner.live', 'http://localhost:3000'],
+    origin: '*',
     methods: ['GET', 'POST', 'PATCH'],
     allowedHeaders: ['Content-Type']
 }));

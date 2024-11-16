@@ -61,7 +61,7 @@ async function deleteInactiveRooms() {
 // Schedule to run every minute
 cron.schedule('* * * * *', deleteInactiveRooms);
 
-app.post('/room', async (req, res) => {
+app.post('/api/room', async (req, res) => {
     const { roomId, userId } = req.body;
 
     if (!roomId || !userId) {
@@ -85,7 +85,7 @@ app.post('/room', async (req, res) => {
     }
 });
 
-app.patch('/room/:roomId', async (req, res) => {
+app.patch('/api/room/:roomId', async (req, res) => {
     const { roomId } = req.params;
     const { userId, text } = req.body;
 
@@ -127,7 +127,7 @@ app.patch('/room/:roomId', async (req, res) => {
     }
 });
 
-app.get('/room/:roomId', async (req, res) => {
+app.get('/api/room/:roomId', async (req, res) => {
     const { roomId } = req.params;
     const { userId } = req.query;
 
@@ -166,7 +166,7 @@ app.get('/room/:roomId', async (req, res) => {
     }
 });
 
-app.get('/rooms', async (req, res) => {
+app.get('/api/rooms', async (req, res) => {
     const { userId } = req.query;
 
     if (!userId) {

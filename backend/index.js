@@ -3,7 +3,7 @@
         - API lõpp-punktide loomine ja haldamine
         - Andmebaasi arhitektuuri projekteerimine ja ülesehitus
         - Andmebaasiga suhtlemine (SQL päringud, andmete salvestamine ja kustutamine)
-        - Bash skriptide (start.sh, stop.sh) loomine süsteemi käivitamiseks ja peatamiseks
+        - Bash skriptide (start.sh, stop.sh, restartNginx.sh) loomine
         - jne
 
     Kõik on välja töötanud ja loonud Mihkel Tuisk.

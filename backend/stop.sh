@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# Check if the screen session is running
-if screen -list | grep -q "nodejs-server"; then
-    # Kill the screen session
-    screen -S nodejs-server -X quit
-    echo "Node.js server stopped and screen session 'nodejs-server' killed."
+# Kontrolli, kas screen seanss on käimas
+if screen -list | grep -q "pasta-nodejs-server"; then
+    # Kui seanss on käimas, siis lõpetame selle
+    screen -S pasta-nodejs-server -X quit
+    # Kuvame teadet, et server on peatatud ja screen seanss on lõpetatud
+    echo "Node.js server peatati ja screen seanss 'pasta-nodejs-server' lõpetati."
 else
-    echo "No running screen session named 'nodejs-server' found."
+    # Kui sellist seanssi ei leita, kuvame teadet, et seanss puudub
+    echo "Screen seanssi nimega 'pasta-nodejs-server' ei leitud."
 fi

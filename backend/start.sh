@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# Check if the screen session is already running
-if screen -list | grep -q "nodejs-server"; then
-    echo "Server is already running in a screen session."
+# Kontrolli, kas screen seanss on juba käimas
+if screen -list | grep -q "pasta-nodejs-server"; then
+    # Kui server on juba käimas, kuvame teadet
+    echo "Server töötab juba screen seansis."
 else
-    # Start a new screen session and run Node.js in it
-    screen -dmS nodejs-server node /var/www/PastaKonteiner/backend/index.js
-    echo "Node.js server started in screen session 'nodejs-server'."
+    # Kui server ei ole käimas, alustame uut screen seanssi ja käivitame Node.js serveri
+    screen -dmS pasta-nodejs-server node /var/www/PastaKonteiner/backend/index.js
+    # Kuvame teadet, et server on käivitatud
+    echo "Node.js server käivitati screen seansis 'pasta-nodejs-server'."
 fi

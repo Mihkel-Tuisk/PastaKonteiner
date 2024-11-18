@@ -242,7 +242,7 @@ app.get('/api/room/:roomId', async (req, res) => {
     }
 });
 
-// Teenindab päringud enda kasutaja ID poolt loodud tubade ID-de leidmiseks
+// Teenindab päringud enda kasutaja ID poolt loodud tubade ID-de leidmiseks ja kui palju on maksimum tubade arv mis on võimalik luua ühel isikul
 app.get('/api/rooms', async (req, res) => {
     // Saame päringu parameetrist userId (kasutaja ID)
     const { userId } = req.query;
@@ -251,7 +251,8 @@ app.get('/api/rooms', async (req, res) => {
     if (!userId) {
         return res.status(200).json({
             error: "Kasutaja ID on kohustuslik!",
-            roomIds: null
+            roomIds: null,
+            maxRoomsPerUser: null
         });
     }
 
@@ -263,7 +264,8 @@ app.get('/api/rooms', async (req, res) => {
         if (rooms.length === 0) {
             return res.status(200).json({
                 error: "Kasutaja jaoks ei leitud ruume!",
-                roomIds: null
+                roomIds: null,
+                maxRoomsPerUser: null
             });
         }
 
@@ -273,7 +275,8 @@ app.get('/api/rooms', async (req, res) => {
         // Tagastame leitud toad
         res.status(200).json({
             error: null,
-            roomIds: roomIds
+            roomIds: roomIds,
+            maxRoomsPerUser: roomLimitPerUser
         });
 
     } catch (err) {
@@ -281,7 +284,8 @@ app.get('/api/rooms', async (req, res) => {
         console.error('Viga tubade leidmisel:', err);
         res.status(200).json({
             error: err.message,
-            roomIds: null
+            roomIds: null,
+            maxRoomsPerUser: null
         });
     }
 });

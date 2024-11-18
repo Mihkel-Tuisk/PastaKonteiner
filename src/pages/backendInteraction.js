@@ -170,12 +170,14 @@ async function getRoomText(roomId) {
     {
         "error": null // Ei esine vigu
         "roomIds": ["tuba1", "tuba2", "tuba3"] // Minu loodud tubade ID
+        "maxRoomsPerUser": 20 // Maksimum lubatud tubade arv iga kasutaja kohta
     }
 
     Vigane vastus:
     {
         "error": "Vigase päringu sõnum" // Vigane päring või muu viga
         "roomIds": null // Ei leitud tubasi
+        "maxRoomsPerUser": null // Ei tea kui palju on lubatud tubasi luua
     }
 */
 async function getAllMyRooms() {
@@ -226,6 +228,10 @@ async function doStuff() {
         console.log("Error in getting room IDs for current user!", ret3.error)
         return
     }
+
+    console.log("Maksimum arv tubasi mis saab iga kasutaja luua:", ret3.maxRoomsPerUser)
+    console.log("Kui palju tubasi ma saan veel luua:", ret3.maxRoomsPerUser - ret3.roomIds.length)
+    console.log("Kui palju tubasi on mul loodud:", ret3.roomIds.length)
 
     // Selline meetod ei tohiks kunagi olla productionis, liiga palju requeste.
     for (const roomId of ret3.roomIds) {

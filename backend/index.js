@@ -15,15 +15,17 @@
     https://education.github.com/pack
 */
 
-const port          = 3001;
-const express       = require('express');
-const bodyParser    = require('body-parser');
-const cron          = require('node-cron');
-const sqlite3       = require('sqlite3').verbose();
-const fs            = require('fs');
-const path          = require('path');
-const cors          = require('cors');
-const { promisify } = require('util');
+// Määrame ruumide limiidi kasutaja kohta
+const roomLimitPerUser = 20;
+const port             = 3001;
+const express          = require('express');
+const bodyParser       = require('body-parser');
+const cron             = require('node-cron');
+const sqlite3          = require('sqlite3').verbose();
+const fs               = require('fs');
+const path             = require('path');
+const cors             = require('cors');
+const { promisify }    = require('util');
 
 const app = express();
 
@@ -110,6 +112,15 @@ app.post('/api/room', async (req, res) => {
     }
 
     try {
+        // Kontrollime, kui palju ruume on juba kasutajal olemas
+        const existingRooms = await dbRun('SELECT * FROM rooms WHERE creatorUserId = ?', [userId]);
+
+        if (existingRooms.length >= roomLimitPerUser) {
+            return res.status(200).json({
+                error: `Kasutaja saab luua ainult kuni ${roomLimitPerUser} ruumi!`
+            });
+        }
+
         // Sisestame andmebaasi uue ruumi, millel on määratud ID, looja ID, tühi tekst ja aktiivsuse kuupäev
         await dbRun('INSERT INTO rooms (roomId, creatorUserId, text, lastActivity) VALUES (?, ?, ?, ?)', [roomId, userId, "", Date.now()]);
 
@@ -126,6 +137,7 @@ app.post('/api/room', async (req, res) => {
         });
     }
 });
+
 
 // Muudab toa teksti toa ID järgi
 app.patch('/api/room/:roomId', async (req, res) => {

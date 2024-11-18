@@ -113,7 +113,7 @@ app.post('/api/room', async (req, res) => {
 
     try {
         // Kontrollime, kui palju ruume on juba kasutajal olemas
-        const existingRooms = await dbRun('SELECT * FROM rooms WHERE creatorUserId = ?', [userId]);
+        const existingRooms = await dbAll('SELECT roomId FROM rooms WHERE creatorUserId = ?', [userId]);
 
         if (existingRooms.length >= roomLimitPerUser) {
             return res.status(200).json({

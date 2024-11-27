@@ -250,7 +250,7 @@ async function generateRoomBtn() {
     console.log('GenerateRoom nupp vajutatud')
     let textBox = document.getElementById("tekst")
     let boxContent = textBox.value
-    if ("" == "") {
+    if (boxContent == "") {
         alert("Konteiner ei saa olla tühi!")
         return
     }
@@ -275,4 +275,45 @@ async function generateRoomBtn() {
     
     let codeBox = document.getElementById("kood")
     codeBox.textContent = randomRoomId
+
+    updateDOM()
 }
+
+function saveRoomBtn(roomid) {
+    saveRoom(roomid, document.getElementById(roomid).value)
+}
+
+async function updateDOM() {
+    pastadekonteiner = document.getElementById("konteinerid")
+    pastadekonteiner.innerHTML = ""
+
+    async function addDOMcategory(roomID) {
+        let roomText = document.createElement("input")
+        let roomCode = document.createElement("p")
+        let saveBtn = document.createElement("button")
+
+        roomTextQuery = await getRoomText(roomID)
+        roomText.value = roomTextQuery.text
+        roomText.id = roomID
+        roomCode.textContent = roomID
+        saveBtn.textContent = "Salvesta"
+
+        pastadekonteiner.appendChild(roomCode)
+        pastadekonteiner.appendChild(roomText)
+        saveBtn.onclick = saveRoomBtn(roomID)
+        pastadekonteiner.appendChild(saveBtn)
+    }
+
+    let myRooms = await getAllMyRooms();
+    if (myRooms.error != null) {
+        console.log("Error in getting room IDs for current user!", myRooms.error)
+        return
+    }
+
+    for (let i = 0; i < myRooms.roomIds.length; i++) {
+        console.log(myRooms.roomIds[i])
+        addDOMcategory(myRooms.roomIds[i])
+    }
+}
+
+updateDOM();

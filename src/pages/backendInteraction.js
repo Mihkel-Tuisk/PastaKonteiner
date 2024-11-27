@@ -8,6 +8,7 @@
 
 // Lingid API jaoks.
 const BASE_URL = 'https://pastakonteiner.live/api';
+
 const CREATE_ROOM_URL = `${BASE_URL}/room`;
 const SAVE_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOM_URL = `${BASE_URL}/room`;
@@ -240,4 +241,38 @@ async function doStuff() {
     }
 }
 
-doStuff();
+// doStuff();
+
+
+// Siitmaalt algab Urmase lisatud nuppude ja funktsioonide sidumine
+
+async function generateRoomBtn() {
+    console.log('GenerateRoom nupp vajutatud')
+    let textBox = document.getElementById("tekst")
+    let boxContent = textBox.value
+    if ("" == "") {
+        alert("Konteiner ei saa olla tühi!")
+        return
+    }
+    
+    const randomRoomId = generateRandomId(5);
+    let ret1 = await createRoom(randomRoomId)
+    if (ret1.error != null) {
+        console.log("Error in room creation!", ret1.error)
+        return
+    }
+
+    console.log("Created room with id:", randomRoomId)
+
+    console.log("Toa sisu on:", boxContent)
+    let ret2 = await saveRoom(randomRoomId, boxContent)
+    if (ret2.error != null) {
+        console.log("Error in room text saving!", ret2.error)
+        return
+    }
+
+    console.log("Set room id:", randomRoomId, "text to:", boxContent)
+    
+    let codeBox = document.getElementById("kood")
+    codeBox.textContent = randomRoomId
+}

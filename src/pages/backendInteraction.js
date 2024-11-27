@@ -1,50 +1,70 @@
-const BASE_URL = 'http://209.38.179.239:3001';
+/* 
+    Funktsioonid backendi süsteemiga suhtlemiseks on välja töötatud ja kirjutatud Mihkel Tuisk.
+    Need funktsioonid võimaldavad suhelda serveri ja andmebaasiga, andes võimaluse andmete pärimiseks, 
+    lisamiseks, uuendamiseks ja kustutamiseks.
+
+    Backendi kood asub kaustas: backend\index.js
+*/
+
+// Lingid API jaoks.
+const BASE_URL = 'https://pastakonteiner.live/api';
 const CREATE_ROOM_URL = `${BASE_URL}/room`;
 const SAVE_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOMS_FOR_USER_URL = `${BASE_URL}/rooms`;
 
+// Funktsioon, mis genereerib juhusliku ID, mille pikkus on määratud `length` parameetriga.
 function generateRandomId(length) {
     let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
+    const charactersLength = characters.length; 
     let counter = 0;
+
+    // Korratakse, kuni jõutakse soovitud pikkuseni
     while (counter < length) {
+        // Valime juhuslikult tähemärgi 'characters' stringist ja lisame selle tulemusse
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
         counter += 1;
     }
+
     return result;
 }
 
+// Funktsioon, mis tagastab kasutaja ID. Kui see pole salvestatud, siis genereeritakse uus ID ja salvestatakse kohalikus salvestuses (localStorage).
 function getUserId() {
-    // FOR TESTING, WILL RENEW USER ID
-    //localStorage.removeItem('userId');
+    //localStorage.removeItem('userId');  // Testimiseks, et iga kord uus ID
 
+    // Proovime saada olemasoleva kasutaja ID, mis on salvestatud localStorage'is
     let userId = localStorage.getItem('userId');
 
+    // Kui ID ei ole salvestatud, siis genereerime uue
     if (!userId) {
-        userId = generateRandomId(26);
-        localStorage.setItem('userId', userId);
+        userId = generateRandomId(26);  // Genereerib juhusliku ID, mille pikkus on 26 tähemärki
+        localStorage.setItem('userId', userId);  // Salvestame kasutaja ID kohalikku salvestusse
     }
 
+    // Tagastame kasutaja ID
     return userId;
 }
 
-/*
-    Creates a room by.
 
-    Success Response:
+/*
+    Funktsioon, mis loob uue toa, kasutades antud roomId.
+
+    Edukas vastus:
     {
-        "error": null
+        "error": null  // Kui toa loomine õnnestus
     }
 
-    Error Response:
+    Vigane vastus:
     {
-        "error": "Error message"
+        "error": "Vigase päringu sõnum"  // Vigane päring või muu viga
     }
 */
 async function createRoom(roomId) {
     const userId = getUserId();
+
+    // Loome päringu keha, mis sisaldab kasutaja ID-d ja toa ID-d
     const payload = { userId, roomId };
 
     try {
@@ -56,30 +76,33 @@ async function createRoom(roomId) {
             body: JSON.stringify(payload)
         });
 
+        // Tagastame vastuse JSON formaadis
         return await response.json();
 
     } catch (error) {
-        console.error('Error sending POST request:', error);
+        // Kui päringu tegemisel tekib viga, logime vea sõnumi konsooli
+        console.error('Viga POST päringu tegemisel:', error);
         throw error;
     }
 }
 
 /*
-    Updates the text of a room.
+    Funktsioon, mis uuendab toa teksti vastavalt antud ID-le.
 
-    Success Response:
+    Edukas vastus:
     {
-        "error": null
+        "error": null // Ei esine vigu, kõik läks hästi
     }
 
-    Error Response:
+    Vigane vastus:
     {
-        "error": "Error message"
+        "error": "Vigase päringu sõnum"  // Vigane päring või muu viga
     }
 */
 async function saveRoom(roomId, text) {
     const userId = getUserId();
 
+    // Loome päringu keha, milleks on kasutaja ID ja uus tekst
     const payload = {
         userId: userId,
         text: text
@@ -94,27 +117,29 @@ async function saveRoom(roomId, text) {
             body: JSON.stringify(payload)
         });
 
+        // Tagastame vastuse JSON formaadis
         return await response.json();
 
     } catch (error) {
-        console.error('Error sending PATCH request:', error);
+        // Kui päringu tegemisel tekib viga, logime vea sõnumi konsooli
+        console.error('Viga PATCH päringu tegemisel:', error);
         throw error;
     }
 }
 
 /*
-    Fetches the text of a specific room by its ID.
+    Funktsioon, mis toob ülesande (toa) teksti, kasutades konkreetset toa ID-d.
 
-    Success Response:
+    Edukas vastus:
     {
-        "error": null
-        "text": "This is the text of the room"
+        "error": null,  // Ei esine vigu
+        "text": "See on toa tekst"  // Toa tekst, mida otsitakse
     }
 
-    Error Response:
+    Vigane vastus:
     {
-        "error": "Error message"
-        "text": null
+        "error": "Vigase päringu sõnum",  // Vigane päring või muu viga
+        "text": null  // Toa teksti ei leitud
     }
 */
 async function getRoomText(roomId) {
@@ -128,25 +153,31 @@ async function getRoomText(roomId) {
             },
         });
 
+        // Tagastame vastuse JSON formaadis
         return await response.json();
 
     } catch (error) {
-        console.error('Error sending GET request:', error);
+        // Kui päringu tegemisel tekib viga, logime vea sõnumi konsooli
+        console.error('Viga GET päringu tegemisel:', error);
         throw error;
     }
 }
 
 /*
-    Fetches a list of room IDs for the current user ID.
+    Funktsioon, mis toob kõikide ruumide ID-d, mis on seotud praeguse kasutaja ID-ga.
  
-    Success Response:
+    Edukas vastus:
     {
-        "error": null
+        "error": null // Ei esine vigu
+        "roomIds": ["tuba1", "tuba2", "tuba3"] // Minu loodud tubade ID
+        "maxRoomsPerUser": 20 // Maksimum lubatud tubade arv iga kasutaja kohta
     }
 
-    Error Response:
+    Vigane vastus:
     {
-        "error": "Error message"
+        "error": "Vigase päringu sõnum" // Vigane päring või muu viga
+        "roomIds": null // Ei leitud tubasi
+        "maxRoomsPerUser": null // Ei tea kui palju on lubatud tubasi luua
     }
 */
 async function getAllMyRooms() {
@@ -160,17 +191,20 @@ async function getAllMyRooms() {
             },
         });
 
+        // Tagastame vastuse JSON formaadis
         return await response.json();
 
     } catch (error) {
-        console.error('Error sending GET request:', error);
+        // Kui päringu tegemisel tekib viga, logime vea sõnumi konsooli
+        console.error('Viga GET päringu tegemisel:', error);
         throw error;
     }
 }
 
+// TESTIMISEKS!!! EEMALDA KUI TÖÖ ON VALMIS!!!
 async function doStuff() {
     console.log("------------------------------------------------");
-
+    
     const randomRoomId = generateRandomId(5);
     let ret1 = await createRoom(randomRoomId)
     if (ret1.error != null) {
@@ -195,11 +229,15 @@ async function doStuff() {
         return
     }
 
-    // This should not enter production, too many requests per second.
+    console.log("Maksimum arv tubasi mis saab iga kasutaja luua:", ret3.maxRoomsPerUser)
+    console.log("Kui palju tubasi ma saan veel luua:", ret3.maxRoomsPerUser - ret3.roomIds.length)
+    console.log("Kui palju tubasi on mul loodud:", ret3.roomIds.length)
+
+    // Selline meetod ei tohiks kunagi olla productionis, liiga palju requeste.
     for (const roomId of ret3.roomIds) {
         let roomData = await getRoomText(roomId)
         console.log(roomId, "Room text:", roomData.text)
     }
 }
 
-// doStuff();
+doStuff();

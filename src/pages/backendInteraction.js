@@ -300,7 +300,7 @@ async function updateDOM() {
 
         pastadekonteiner.appendChild(roomCode)
         pastadekonteiner.appendChild(roomText)
-        saveBtn.onclick = saveRoomBtn(roomID)
+        saveBtn.onclick = saveRoomBtn(roomID) // hetkel ei t;;ta ma ei tea miks
         pastadekonteiner.appendChild(saveBtn)
     }
 

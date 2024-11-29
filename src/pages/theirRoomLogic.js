@@ -1,3 +1,8 @@
+function teavita(message) {
+    console.log(message);
+    alert(message);
+  }
+
 async function mineTuppaBtn() {
     const roomID = document.getElementById("toakood").value;
     if (!roomID) {

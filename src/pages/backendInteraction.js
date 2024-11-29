@@ -17,8 +17,8 @@ const GET_ROOMS_FOR_USER_URL = `${BASE_URL}/rooms`;
 // Funktsioon, mis genereerib juhusliku ID, mille pikkus on määratud `length` parameetriga.
 function generateRandomId(length) {
     let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
-    const charactersLength = characters.length; 
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
     let counter = 0;
 
     // Korratakse, kuni jõutakse soovitud pikkuseni
@@ -205,7 +205,7 @@ async function getAllMyRooms() {
 // TESTIMISEKS!!! EEMALDA KUI TÖÖ ON VALMIS!!!
 async function doStuff() {
     console.log("------------------------------------------------");
-    
+
     const randomRoomId = generateRandomId(5);
     let ret1 = await createRoom(randomRoomId)
     if (ret1.error != null) {
@@ -223,7 +223,7 @@ async function doStuff() {
     }
 
     console.log("Set room id:", randomRoomId, "text to:", randomText)
-    
+
     let ret3 = await getAllMyRooms();
     if (ret3.error != null) {
         console.log("Error in getting room IDs for current user!", ret3.error)
@@ -242,78 +242,3 @@ async function doStuff() {
 }
 
 // doStuff();
-
-
-// Siitmaalt algab Urmase lisatud nuppude ja funktsioonide sidumine
-
-async function generateRoomBtn() {
-    console.log('GenerateRoom nupp vajutatud')
-    let textBox = document.getElementById("tekst")
-    let boxContent = textBox.value
-    if (boxContent == "") {
-        alert("Konteiner ei saa olla tühi!")
-        return
-    }
-    
-    const randomRoomId = generateRandomId(5);
-    let ret1 = await createRoom(randomRoomId)
-    if (ret1.error != null) {
-        console.log("Error in room creation!", ret1.error)
-        return
-    }
-
-    console.log("Created room with id:", randomRoomId)
-
-    console.log("Toa sisu on:", boxContent)
-    let ret2 = await saveRoom(randomRoomId, boxContent)
-    if (ret2.error != null) {
-        console.log("Error in room text saving!", ret2.error)
-        return
-    }
-
-    console.log("Set room id:", randomRoomId, "text to:", boxContent)
-    
-    let codeBox = document.getElementById("kood")
-    codeBox.textContent = randomRoomId
-
-    updateDOM()
-}
-
-function saveRoomBtn(roomid) {
-    saveRoom(roomid, document.getElementById(roomid).value)
-}
-
-async function updateDOM() {
-    pastadekonteiner = document.getElementById("konteinerid")
-    pastadekonteiner.innerHTML = ""
-
-    async function addDOMcategory(roomID) {
-        let roomText = document.createElement("input")
-        let roomCode = document.createElement("p")
-        let saveBtn = document.createElement("button")
-
-        roomTextQuery = await getRoomText(roomID)
-        roomText.value = roomTextQuery.text
-        roomText.id = roomID
-        roomCode.textContent = roomID
-        saveBtn.textContent = "Salvesta"
-
-        pastadekonteiner.appendChild(roomCode)
-        pastadekonteiner.appendChild(roomText)
-        saveBtn.onclick = saveRoomBtn(roomID) // hetkel ei t;;ta ma ei tea miks
-        pastadekonteiner.appendChild(saveBtn)
-    }
-
-    let myRooms = await getAllMyRooms();
-    if (myRooms.error != null) {
-        console.log("Error in getting room IDs for current user!", myRooms.error)
-        return
-    }
-
-    for (let i = 0; i < myRooms.roomIds.length; i++) {
-        console.log(myRooms.roomIds[i])
-        addDOMcategory(myRooms.roomIds[i])
-    }
-}
-
-updateDOM();

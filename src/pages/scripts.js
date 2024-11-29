@@ -1,17 +1,145 @@
-function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+// Siitmaalt algab Urmase lisatud nuppude ja funktsioonide sidumine
+
+function teavita(message) {
+  console.log(message);
+  alert(message);
+}
+
+async function generateRoomBtn() {
+  let textBox = document.getElementById("tekst");
+
+  if (!textBox) {
+    teavita("tekst elementi ei leitud!")
+    return;
+  }
+
+  let boxContent = textBox.value;
+
+  if (boxContent === "") {
+    teavita("Konteiner ei saa olla tühi!");
+    return;
+  }
+
+  const randomRoomId = generateRandomId(5);
+  let ret1 = await createRoom(randomRoomId);
+  
+  if (ret1.error != null) {
+    teavita(ret1.error)
+    return;
+  }
+
+  let ret2 = await saveRoom(randomRoomId, boxContent);
+  if (ret2.error != null) {
+    teavita(ret2.error)
+    return;
+  }
+
+  textBox.value = ""
+
+  await updateDOM();
+}
+
+function saveRoomBtn(roomid) {
+  saveRoom(roomid, document.getElementById(roomid)?.value);
+}
+
+async function updateDOM() {
+  const pastadekonteiner = document.getElementById("konteinerid");
+  const roomsLeftElement = document.getElementById("tubasiAlles");
+
+  if (!pastadekonteiner) {
+    teavita("konteinerid elementi ei leitud!")
+    return;
+  }
+
+  if (!roomsLeftElement) {
+    teavita("tubasiAlles elementi ei leitud!")
+    return;
+  }
+
+  pastadekonteiner.innerHTML = "";
+
+  async function addDOMcategory(roomID) {
+    const roomText = document.createElement("input");
+    const roomCode = document.createElement("p");
+    const saveBtn = document.createElement("button");
+
+    const roomTextQuery = await getRoomText(roomID);
+    if (roomTextQuery.error != null) {
+      teavita(roomTextQuery.error)
+      return;
     }
-    return result;
+
+    roomText.value = roomTextQuery.text;
+    roomText.id = roomID;
+    roomCode.textContent = roomID;
+    saveBtn.textContent = "Salvesta";
+
+    pastadekonteiner.appendChild(roomCode);
+    pastadekonteiner.appendChild(roomText);
+
+    saveBtn.onclick = function () {
+      saveRoomBtn(roomID);
+    };
+    pastadekonteiner.appendChild(saveBtn);
+  }
+
+  const myRooms = await getAllMyRooms();
+  if (myRooms.error != null) {
+    teavita(myRooms.error)
+    return;
+  }
+
+  const totalRoomsCreated = myRooms.roomIds.length;
+  const maxRooms = myRooms.maxRoomsPerUser;
+  const roomsLeft = maxRooms - totalRoomsCreated;
+
+  roomsLeftElement.textContent = roomsLeft;
+
+  for (let i = 0; i < myRooms.roomIds.length; i++) {
+    console.log(myRooms.roomIds[i]);
+    await addDOMcategory(myRooms.roomIds[i]);
+  }
 }
 
-function muudaTeksti() {
-    koodiTekst.textContent = makeid(4)
+
+async function mineTuppaBtn() {
+  const roomID = document.getElementById("toakood").value;
+  if (!roomID) {
+    teavita("Palun sisesta toakood!");
+    return;
+  }
+
+  const pastadekonteiner = document.getElementById("teisteToad");
+  if (!pastadekonteiner) {
+    teavita("teisteToad elementi ei leitud!");
+    return;
+  }
+
+  pastadekonteiner.innerHTML = "";
+
+  async function addDOMcategory(roomID) {
+    const roomText = document.createElement("input");
+    const roomCode = document.createElement("p");
+
+    const roomTextQuery = await getRoomText(roomID);
+    if (roomTextQuery.error != null) {
+      teavita(roomTextQuery.error);
+      return;
+    }
+
+    roomText.value = roomTextQuery.text;
+    roomText.id = roomID;
+    roomText.readOnly = true;
+    roomCode.textContent = roomID;
+
+    pastadekonteiner.appendChild(roomCode);
+    pastadekonteiner.appendChild(roomText);
+  }
+
+  await addDOMcategory(roomID);
 }
 
-let koodiTekst = document.getElementById("kood")
+window.addEventListener('load', async function() {
+  await updateDOM();
+});

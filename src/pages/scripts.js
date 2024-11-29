@@ -16,7 +16,7 @@ async function generateRoomBtn() {
   let boxContent = textBox.value;
 
   if (boxContent === "") {
-    teavita("Konteiner ei saa olla tühi!");
+    teavita("Konteineri nimi ei saa olla tühi!");
     return;
   }
 
@@ -85,7 +85,9 @@ async function updateDOM() {
   }
 
   const myRooms = await getAllMyRooms();
-  if (myRooms.error != null) {
+
+  // See "Kasutaja jaoks ei leitud ruume!" error pole hull, selle saab üle lasta :wink:
+  if (myRooms.error != null && myRooms.error != "Kasutaja jaoks ei leitud ruume!") {
     teavita(myRooms.error)
     return;
   }
@@ -101,7 +103,6 @@ async function updateDOM() {
     await addDOMcategory(myRooms.roomIds[i]);
   }
 }
-
 
 async function mineTuppaBtn() {
   const roomID = document.getElementById("toakood").value;

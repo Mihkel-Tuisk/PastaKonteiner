@@ -217,7 +217,7 @@ app.get('/api/room/:roomId', async (req, res) => {
         // Kui ruumi ei leita, tagastame veateate
         if (!room) {
             return res.status(200).json({
-                error: "Ruumi ei leitud või kasutaja ei ole selle ruumi looja!",
+                error: "Ruumi ei leitud!",
                 text: null
             });
         }

@@ -192,15 +192,6 @@ app.patch('/api/room/:roomId', async (req, res) => {
 app.get('/api/room/:roomId', async (req, res) => {
     // Saame päringu parameetrist ruumi ID ja kasutaja ID
     const { roomId } = req.params;
-    const { userId } = req.query;
-
-    // Kontrollime, kas kasutaja ID on määratud
-    if (!userId) {
-        return res.status(200).json({
-            error: "Kasutaja ID on kohustuslik!",
-            text: null
-        });
-    }
 
     // Kontrollime, kas ruumi ID on määratud
     if (!roomId) {
@@ -212,7 +203,7 @@ app.get('/api/room/:roomId', async (req, res) => {
 
     try {
         // Otsime andmebaasist ruumi, mille ID on määratud ja looja on antud kasutaja
-        const room = await dbGet('SELECT * FROM rooms WHERE roomId = ? AND creatorUserId = ?', [roomId, userId]);
+        const room = await dbGet('SELECT * FROM rooms WHERE roomId = ?', [roomId]);
 
         // Kui ruumi ei leita, tagastame veateate
         if (!room) {

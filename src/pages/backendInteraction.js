@@ -144,10 +144,8 @@ async function saveRoom(roomId, text) {
     }
 */
 async function getRoomText(roomId) {
-    const userId = getUserId();
-
     try {
-        const response = await fetch(`${GET_ROOM_URL}/${roomId}?userId=${userId}`, {
+        const response = await fetch(`${GET_ROOM_URL}/${roomId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

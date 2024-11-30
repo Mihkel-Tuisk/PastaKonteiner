@@ -19,7 +19,7 @@ async function mineTuppaBtn() {
     pastadekonteiner.innerHTML = "";
   
     async function addDOMcategory(roomID) {
-      const roomText = document.createElement("input");
+      const roomText = document.createElement("textarea");
       const roomCode = document.createElement("p");
   
       const roomTextQuery = await getRoomText(roomID);

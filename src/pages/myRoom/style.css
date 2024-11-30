@@ -1,0 +1,100 @@
+* {
+    background-color: rgb(60, 0, 0); 
+    color: blanchedalmond;
+    font-family: monospace;
+}
+
+.navigation {
+    overflow: hidden;
+    height: 70px;
+}
+
+img {
+    height: 100%;
+    width: auto;
+}
+
+.navigation a{
+    padding: auto 10px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    text-transform: uppercase;
+    display: inline-block;
+    color: blanchedalmond;
+    font-weight: bold;
+    font-size: large;
+
+}
+
+.navigation img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.navigation a:hover {
+    color: orangered;
+    transition-duration: 250ms;
+    scale: 1.05;
+    transition-timing-function: ease-in-out;
+}
+
+textarea {
+    background-color: rgb(255, 141, 141);
+    width: 450px;
+    height: 200px;
+    border-radius: 5px;
+    display: block;
+    border: blanchedalmond 1px solid;
+    color: black;
+    margin: 13px 0px;
+}
+
+.material-icons.md-18{
+    font-size: small;
+}
+
+.copyBtn {
+    padding-left: auto  ;
+    display: inline-flex;
+    vertical-align: middle;
+    padding: 3px;
+}
+
+button {
+    background:rgb(60, 0, 0);
+    color: blanchedalmond;
+    border-radius: 3px;
+    border: solid blanchedalmond 1px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+
+.lisakonteiner {
+    width: fit-content;
+    margin: 13px 0px;
+
+}
+
+.lisakonteiner-nav {
+    margin-bottom: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label {
+    line-height: normal;
+
+}
+
+label:hover {
+    opacity: 0.9;
+}
+
+
+

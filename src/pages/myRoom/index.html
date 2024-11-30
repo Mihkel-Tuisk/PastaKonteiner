@@ -5,23 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Toad</title>
-    <link rel="stylesheet" href="style.css">
     <script defer src="../backendInteraction.js"></script>
     <script defer src="../myRoomLogic.js"></script>
+    <script defer src="../copyBtn.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <div class="navigation">
-        <button onclick="location.href='../mainPage/index.html'">Avaleht</button>
-        <button onclick="location.href='../contacts/index.html'">Kontaktid</button>
-        <button onclick="location.href='../theirRoom/index.html'">Vaata tubasi</button>
+        <img src="../../images/var2nobg.png" alt="logo">
+        <a href="../mainPage/index.html">Avaleht</a>
+        <a href="../contacts/index.html">Kontaktid</a>
+        <a href="../theirRoom/index.html">Vaata tubasid</a>
     </div>
 
     <h1>Lisa 🍝pastakonteiner🍝</h1>
-    <label for="tekst">Tekst</label>
-    <input type="text" id="tekst">
+    <div class="lisakonteiner">
+        <div class="lisakonteiner-nav">
+            <label for="tekst">Lisa siia oma tähtsad mõtted!</label>
+            <button class="copyBtn" onclick="copyContent('tekst')">
+                <span class="material-icons md-18"> content_copy </span>
+            </button>
+        </div>
+        <textarea name="tekst" id="tekst"></textarea>
+    </div>
     <p>Toad jäänud: <span id="tubasiAlles"></span></p>
     <button onclick="generateRoomBtn()">Genereeri tuba</button>
     <h1>Sinu konteinerid</h1>
+    <p>Kopeerimiseks vajuta toakoodi peale <span class="material-icons md-18">sentiment_satisfied</span></p>
     <div id="konteinerid"></div>
 
 </body>

@@ -60,9 +60,6 @@ async function updateDOM() {
   pastadekonteiner.innerHTML = "";
 
   async function addDOMcategory(roomID) {
-    const roomText = document.createElement("input");
-    const roomCode = document.createElement("p");
-    const saveBtn = document.createElement("button");
 
     const roomTextQuery = await getRoomText(roomID);
     if (roomTextQuery.error != null) {
@@ -70,18 +67,52 @@ async function updateDOM() {
       return;
     }
 
+    const roomText = document.createElement("textarea");
+    const roomCode = document.createElement("label");
+    const saveBtn = document.createElement("button");
+    const container = document.createElement("div")
+    const containerNav = document.createElement("div")
+    const copyBtn = document.createElement("button")
+    const copyBtnIcon = document.createElement("span")
+
+
     roomText.value = roomTextQuery.text;
     roomText.id = roomID;
     roomCode.textContent = roomID;
-    saveBtn.textContent = "Salvesta";
+    saveBtn.textContent = "Salvesta muudatused";
 
-    pastadekonteiner.appendChild(roomCode);
-    pastadekonteiner.appendChild(roomText);
+    container.classList.add("lisakonteiner")
+    containerNav.classList.add("lisakonteiner-nav")
+    copyBtn.classList.add("copyBtn")
+
+    copyBtnIcon.classList.add("material-icons") 
+    copyBtnIcon.classList.add("md-18") 
+    copyBtnIcon.textContent = "content_copy"
+
+    copyBtn.appendChild(copyBtnIcon)
+    containerNav.appendChild(roomCode)
+    containerNav.appendChild(copyBtn)
+    container.appendChild(containerNav)
+    container.appendChild(roomText)
+
+    container.appendChild(saveBtn)
+    pastadekonteiner.appendChild(container)
+
+    // pastadekonteiner.appendChild(roomCode);
+    // pastadekonteiner.appendChild(roomText);
+
+    copyBtn.onclick = function () {
+      copyContent(roomID);
+    }
 
     saveBtn.onclick = function () {
       saveRoomBtn(roomID);
     };
-    pastadekonteiner.appendChild(saveBtn);
+
+    roomCode.onclick = function () {
+      copyCode(roomID)
+    }
+
   }
 
   const myRooms = await getAllMyRooms();
@@ -107,3 +138,4 @@ async function updateDOM() {
 window.addEventListener('load', async function() {
   await updateDOM();
 });
+

@@ -1,0 +1,43 @@
+* {
+    color: blanchedalmond;
+    font-family: monospace;
+}
+html {
+    background-color: rgb(60, 0, 0); 
+}
+
+.navigation {
+    overflow: hidden;
+    height: 70px;
+}
+
+img {
+    height: 100%;
+    width: auto;
+}
+
+.navigation a{
+    padding: auto 10px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    text-transform: uppercase;
+    display: inline-block;
+    color: blanchedalmond;
+    font-weight: bold;
+    font-size: large;
+
+}
+
+.navigation img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.navigation a:hover {
+    color: orangered;
+    transition-duration: 250ms;
+    scale: 1.05;
+    transition-timing-function: ease-in-out;
+}

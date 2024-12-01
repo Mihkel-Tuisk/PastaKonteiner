@@ -1,3 +1,4 @@
+<!-- Urmase poolt -->
 <!DOCTYPE html>
 <html lang="et">
 <head>
@@ -7,19 +8,22 @@
     <title>Teiste toad</title>
     <script defer src="../backendInteraction.js"></script>
     <script defer src="../theirRoomLogic.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <script defer src="../copyBtn.js"></script>
+    <script defer src="../notification.js"></script>
+    <link rel="stylesheet" href="../roomsStyle.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <div id="teavitused"></div>
     <div class="navigation">
-        <img src="../../images/var2nobg.png" alt="logo">
+        <img src="../../../assets/logoyellow.png" alt="logo">
         <a href="../mainPage/index.html">Avaleht</a>
         <a href="../contacts/index.html">Kontakt</a>
         <a href="../myRoom/index.html">Minu toad</a>
     </div>
 
     <h1>Toad</h1>
-    <label for="toakood">Sisesta toakood</label>
+    <label class="fullopacity" for="toakood">Sisesta toakood</label>
     <input type="text" id="toakood">
     <button onclick="mineTuppaBtn()">Mine tuppa</button>
     

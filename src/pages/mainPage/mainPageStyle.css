@@ -1,3 +1,7 @@
+/* Urmase poolt */
+
+/* Kuna avalehel on väga vähe sarnast teiste lehtedega, siis selle jaoks on uus css fail */
+
 * {
     color: blanchedalmond;
     font-family: monospace;
@@ -7,8 +11,18 @@ html {
     background-color: rgb(60, 0, 0); 
 }
 
+h1 {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+p {
+    font-size: 25px;
+    margin: 8px;
+}
+
 a {
-    padding: auto 10px;
+    padding: 10px;
     margin: 5px;
     text-align: center;
     text-decoration: none;
@@ -17,7 +31,7 @@ a {
     display: inline-block;
     color: blanchedalmond;
     font-weight: bold;
-    font-size: large;
+    font-size: 40px;
 }
 
 a:hover {
@@ -26,7 +40,6 @@ a:hover {
     scale: 1.05;
     transition-timing-function: ease-in-out;
 }
-
 
 button {
     background:rgb(60, 0, 0);
@@ -46,9 +59,8 @@ button:hover {
     justify-content: center;
 }
 
-
 .sisemus {
-    background-image: url("../../images/wackymode-Photoroom-cropped.png");
+    background-image: url("../../../assets/logoweird.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -65,13 +77,8 @@ button:hover {
 
 .sisemus > div {
     background: transparent;
-    /* background-color: #ff8d8d1f; */
     backdrop-filter: sepia(90%) brightness(30%);
     border: solid blanchedalmond 1px;
     padding: 8px;
     border-radius: 7px;
-}
-
-p {
-    margin: 8px;
 }

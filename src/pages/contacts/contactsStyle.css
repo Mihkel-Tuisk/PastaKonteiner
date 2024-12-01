@@ -1,3 +1,7 @@
+/* Urmase poolt */
+
+/* Põhiline on navigatiooniriba, muidu eriti tööd polnud */
+
 * {
     color: blanchedalmond;
     font-family: monospace;
@@ -17,7 +21,7 @@ img {
 }
 
 .navigation a{
-    padding: auto 10px;
+    padding: 10px;
     margin: 10px;
     text-align: center;
     text-decoration: none;

@@ -3,9 +3,15 @@
 /* myRoom ja theirRoom css on siia koondatud, sest see on päris sarnarne/samasugune*/
 
 * {
-    background-color: rgb(60, 0, 0); 
+    background-color: rgb(60, 0, 0);
     color: blanchedalmond;
     font-family: monospace;
+}
+
+.separator {
+    height: 1px;
+    background-color: #ccc;
+    margin: 10px 0;
 }
 
 .navigation {
@@ -18,7 +24,7 @@ img {
     width: auto;
 }
 
-.navigation a{
+.navigation a {
     padding: 5px;
     margin: 10px;
     text-align: center;
@@ -62,32 +68,37 @@ textarea {
     margin: 13px 0px;
 }
 
-.material-icons.md-18{
+.material-icons.md-18 {
     font-size: small;
 }
 
 .copyBtn {
     display: inline-flex;
     vertical-align: middle;
-    padding: 3px;
+    padding: 7px;
 }
 
 button {
-    background:rgb(60, 0, 0);
+    font-size: large;
+    background: rgb(60, 0, 0);
     color: blanchedalmond;
     border-radius: 3px;
     border: solid blanchedalmond 1px;
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.7;
 }
-
 
 .lisakonteiner {
     width: fit-content;
     margin: 13px 0px;
-
+    padding: 15px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-color: blanchedalmond;
+    box-shadow: 0 4px 12px rgba(255, 235, 205, 0.5);
 }
 
 .lisakonteiner-nav {
@@ -99,21 +110,17 @@ button:hover {
 
 label {
     line-height: normal;
-
+    font-size: 1.5em;
 }
 
 label:hover {
-    opacity: 0.9;
+    opacity: 0.7;
 }
-
 
 /* see label, mis on html-iga juba sees ei ole toakood, seega seda ei tohiks värvi muuta kursori tõttu */
 .fullopacity:hover {
     opacity: 1;
 }
-
-
-
 
 /* Teavituste jaoks vajalik css algab siit */
 
@@ -134,7 +141,7 @@ label:hover {
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    background-color: rgb(60, 0, 0) ;
+    background-color: rgb(60, 0, 0);
     /* color: blanchedalmond; */
     border-radius: 5px;
     font-size: 16px;
@@ -148,6 +155,7 @@ label:hover {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -156,9 +164,10 @@ label:hover {
 /* Kui teavitusblokki aeg (3s) otsa hakkab saama */
 @keyframes fadeOut {
     from {
-      opacity: 1;
+        opacity: 1;
     }
+
     to {
-      opacity: 0;
+        opacity: 0;
     }
 }

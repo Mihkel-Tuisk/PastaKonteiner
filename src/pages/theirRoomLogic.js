@@ -39,13 +39,12 @@ async function mineTuppaBtn() {
       const copyBtn = document.createElement("button")
       const copyBtnIcon = document.createElement("span")
   
-  
       // Annab neile väärtused/klassid
       roomText.value = roomTextQuery.text;
       roomText.id = roomID;
       roomText.readOnly = true;
       roomCode.textContent = roomID;
-  
+
       container.classList.add("lisakonteiner")
       containerNav.classList.add("lisakonteiner-nav")
       copyBtn.classList.add("copyBtn")

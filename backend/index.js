@@ -17,6 +17,7 @@
 
 // Määrame ruumide limiidi kasutaja kohta
 const roomLimitPerUser = 20;
+const MAX_TEXT_LENGTH  = 5000;
 const port             = 3001;
 const express          = require('express');
 const bodyParser       = require('body-parser');
@@ -99,6 +100,13 @@ async function deleteInactiveRooms() {
 // https://medium.com/@vaishnavihole1/cron-jobs-in-node-js-8666babf787b
 cron.schedule('* * * * *', deleteInactiveRooms);
 
+// Lõpp-punkt, mis tagastab maksimaalse tähemärkide arvu
+app.get('/api/max-text-length', (req, res) => {
+    res.status(200).json({
+        maxLength: MAX_TEXT_LENGTH
+    });
+});
+
 // Loob uue toa
 app.post('/api/room', async (req, res) => {
     // Saame päringu kehas kasutaja ID ja ruumi ID
@@ -149,6 +157,13 @@ app.patch('/api/room/:roomId', async (req, res) => {
     if (!userId || !text) {
         return res.status(200).json({
             error: "Kasutaja ID ja tekst on kohustuslikud!"
+        });
+    }
+
+    // Kontrollime, kas tekst ületab lubatud tähemärgi piiri (5000 tähemärki)
+    if (text.length > MAX_TEXT_LENGTH) {
+        return res.status(200).json({
+            error: `Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`
         });
     }
 
@@ -208,7 +223,7 @@ app.get('/api/room/:roomId', async (req, res) => {
         // Kui ruumi ei leita, tagastame veateate
         if (!room) {
             return res.status(200).json({
-                error: "Ruumi ei leitud!",
+                error: "Tuba ei leitud!",
                 text: null
             });
         }

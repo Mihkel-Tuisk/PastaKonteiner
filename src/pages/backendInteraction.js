@@ -13,6 +13,7 @@ const CREATE_ROOM_URL = `${BASE_URL}/room`;
 const SAVE_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOM_URL = `${BASE_URL}/room`;
 const GET_ROOMS_FOR_USER_URL = `${BASE_URL}/rooms`;
+const GET_ROOMS_MAX_CHAR_LIMIT = `${BASE_URL}/max-text-length`;
 
 // Funktsioon, mis genereerib juhusliku ID, mille pikkus on määratud `length` parameetriga.
 function generateRandomId(length) {
@@ -33,8 +34,6 @@ function generateRandomId(length) {
 
 // Funktsioon, mis tagastab kasutaja ID. Kui see pole salvestatud, siis genereeritakse uus ID ja salvestatakse kohalikus salvestuses (localStorage).
 function getUserId() {
-    //localStorage.removeItem('userId');  // Testimiseks, et iga kord uus ID
-
     // Proovime saada olemasoleva kasutaja ID, mis on salvestatud localStorage'is
     let userId = localStorage.getItem('userId');
 
@@ -48,6 +47,35 @@ function getUserId() {
     return userId;
 }
 
+/*
+    Funktsioon, mis tagastab maksimum tähemärkide arvu ühes konteineris
+
+    Edukas vastus:
+    {
+        "maxLength": 5000 // Maksimum arv tähemärke
+    }
+
+    Vigane vastus:
+    FETCH VISKAB ERRORI!
+*/
+async function getMaxCharactersForRooms() {
+    try {
+        const response = await fetch(GET_ROOMS_MAX_CHAR_LIMIT, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Tagastame vastuse JSON formaadis
+        return await response.json();
+
+    } catch (error) {
+        // Kui päringu tegemisel tekib viga, logime vea sõnumi konsooli
+        console.error('Viga POST päringu tegemisel:', error);
+        throw error;
+    }
+}
 
 /*
     Funktsioon, mis loob uue toa, kasutades antud roomId.
@@ -199,44 +227,3 @@ async function getAllMyRooms() {
         throw error;
     }
 }
-
-// TESTIMISEKS!!! EEMALDA KUI TÖÖ ON VALMIS!!!
-async function doStuff() {
-    console.log("------------------------------------------------");
-
-    const randomRoomId = generateRandomId(5);
-    let ret1 = await createRoom(randomRoomId)
-    if (ret1.error != null) {
-        console.log("Error in room creation!", ret1.error)
-        return
-    }
-
-    console.log("Created room with id:", randomRoomId)
-
-    let randomText = generateRandomId(16)
-    let ret2 = await saveRoom(randomRoomId, randomText)
-    if (ret2.error != null) {
-        console.log("Error in room text saving!", ret2.error)
-        return
-    }
-
-    console.log("Set room id:", randomRoomId, "text to:", randomText)
-
-    let ret3 = await getAllMyRooms();
-    if (ret3.error != null) {
-        console.log("Error in getting room IDs for current user!", ret3.error)
-        return
-    }
-
-    console.log("Maksimum arv tubasi mis saab iga kasutaja luua:", ret3.maxRoomsPerUser)
-    console.log("Kui palju tubasi ma saan veel luua:", ret3.maxRoomsPerUser - ret3.roomIds.length)
-    console.log("Kui palju tubasi on mul loodud:", ret3.roomIds.length)
-
-    // Selline meetod ei tohiks kunagi olla productionis, liiga palju requeste.
-    for (const roomId of ret3.roomIds) {
-        let roomData = await getRoomText(roomId)
-        console.log(roomId, "Room text:", roomData.text)
-    }
-}
-
-// doStuff();

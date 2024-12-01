@@ -10,7 +10,7 @@ function notification(message) {
     notifications.appendChild(notification);
     setTimeout(() => {
         notification.style.animation = "fadeOut 0.5s forwards";
-        setTimeout(() => notification.remove(), 500);
+        setTimeout(() => notification.remove(), 0);
     }, 3000);
 }
 

@@ -1,6 +1,7 @@
 <!-- Urmase poolt -->
 <!DOCTYPE html>
 <html lang="et">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,30 +14,43 @@
     <link rel="stylesheet" href="../roomsStyle.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
     <div id="teavitused"></div>
-    <div class="navigation">
-        <img src="../../../assets/logoyellow.png" alt="logo">
+    <nav class="navigation">
+        <img src="../../../assets/logoyellow.png" alt="Logo" />
         <a href="../mainPage/index.html">Avaleht</a>
         <a href="../contacts/index.html">Kontakt</a>
         <a href="../theirRoom/index.html">Teiste toad</a>
-    </div>
+    </nav>
 
-    <h1>Lisa 🍝pastakonteiner🍝</h1>
-    <div class="lisakonteiner">
-        <div class="lisakonteiner-nav">
-            <label class="fullopacity" for="tekst">Lisa siia oma tähtsad mõtted!</label>
-            <button class="copyBtn" onclick="copyContent('tekst')">
-                <span class="material-icons md-18"> content_copy </span>
-            </button>
-        </div>
-        <textarea name="tekst" id="tekst"></textarea>
-    </div>
-    <button onclick="generateRoomBtn()">Genereeri tuba</button>
-    <p>On veel võimalik luua <span id="tubasidAlles"></span> tuba!</p>
-    <h1>Minu konteinerid</h1>
-    <p>Toakoodi kopeerimiseks vajuta toakoodi peale ning sisu kopeerimiseks ikoonikese peale <span class="material-icons md-18">sentiment_satisfied</span></p>
-    <div id="konteinerid"></div>
+    <main>
+        <h1>Lisa 🍝pastakonteiner🍝</h1>
+
+        <section class="lisakonteiner">
+            <div class="lisakonteiner-nav">
+                <label for="tekst" class="fullopacity">Lisa siia oma tähtsad mõtted!</label>
+                <button class="copyBtn" onclick="copyContent('tekst')">
+                    <span class="material-icons md-18">content_copy</span>
+                </button>
+            </div>
+            <textarea name="tekst" id="tekst"></textarea>
+        </section>
+
+        <button onclick="generateRoomBtn()">Genereeri tuba</button>
+
+        <p>On veel võimalik luua <span id="tubasidAlles"></span> tuba!</p>
+
+        <div class="separator"></div>
+
+        <h1>Minu konteinerid</h1>
+        <p>Toakoodi kopeerimiseks vajuta toakoodi peale ning sisu kopeerimiseks ikoonikese peale 
+            <span class="material-icons md-18">sentiment_satisfied</span>
+        </p>
+
+        <div id="konteinerid"></div>
+    </main>
 
 </body>
+
 </html>

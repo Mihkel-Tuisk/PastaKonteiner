@@ -1,5 +1,6 @@
 // Urmase poolt (Mihkel aitas SaveRoomBtn-i bugiga implementeeris teavitused siin ja ka tubadearvu kuvamise)
 
+let MAX_TEXT_LENGTH = 0
 
 // Siin on kõik tubadekuvamine veebilehele jällegi, seega sarnaneb theirRoomLogic.js-ga, kuid mõne lisafunktsiooniga
 
@@ -12,13 +13,22 @@ async function generateRoomBtn() {
     teavita("tekst elementi ei leitud!")
     return;
   }
-  
-  
+
   let boxContent = textBox.value;
 
   // Kui pole sisu, siis ei saa, peab teavitama ka
   if (boxContent === "") {
     teavita("Konteiner ei saa olla tühi!");
+    return;
+  }
+
+  // Kogub maksimaalse tähemärkide arvu
+  const maxChars = await getMaxCharactersForRooms();
+  MAX_TEXT_LENGTH = maxChars.maxLenght
+
+  // Kontrollib, kas tekst ületab maksimaalset tähemärkide arvu
+  if (boxContent.length > MAX_TEXT_LENGTH) {
+    teavita(`Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`);
     return;
   }
 
@@ -54,111 +64,122 @@ async function generateRoomBtn() {
 }
 
 // Salvestamise nupu funktsionaalsus, paneb andmebaasi ja teavitab sind sellest
-function saveRoomBtn(roomid) {
-  saveRoom(roomid, document.getElementById(roomid)?.value);
-  const message = `Toa ${roomid} muudatused on salvestatud`
-  notification(message)
+async function saveRoomBtn(roomid) {
+  const roomText = document.getElementById(roomid)?.value;
+
+  // Kogub maksimaalse tähemärkide arvu
+  if (MAX_TEXT_LENGTH === 0) {
+    const maxChars = await getMaxCharactersForRooms();
+    MAX_TEXT_LENGTH = maxChars.maxLenght
+  }
+
+  // Kontrollib, kas tekst ületab maksimaalset tähemärkide arvu
+  if (roomText.length > MAX_TEXT_LENGTH) {
+    teavita(`Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`);
+    return;
+  }
+
+  saveRoom(roomid, roomText);
+  const message = `Toa ${roomid} muudatused on salvestatud`;
+  teavita(message);
 }
 
 // Kuvab kõik sinu toad leheküljele
 async function updateDOM() {
-  // Võtab HTML-ist need elemendid
   const pastadekonteiner = document.getElementById("konteinerid");
   const roomsLeftElement = document.getElementById("tubasidAlles");
 
-  // Vaatab kas leidis need ka
   if (!pastadekonteiner) {
-    teavita("konteinerid elementi ei leitud!")
+    teavita("konteinerid elementi ei leitud!");
     return;
   }
 
   if (!roomsLeftElement) {
-    teavita("tubasiAlles elementi ei leitud!")
+    teavita("tubasiAlles elementi ei leitud!");
     return;
   }
 
-  // Eemaldab eelmise laadimise sisu
   pastadekonteiner.innerHTML = "";
 
-  // Lisab kontaineri/toa andmebaasist HTML-i
-  async function addRoomToDOM(roomID) {
-
-    // Vaatab kas sai toasisu ka
+  async function addRoomToDOM(roomID, isLastRoom) {
     const roomTextQuery = await getRoomText(roomID);
     if (roomTextQuery.error != null) {
-      teavita(roomTextQuery.error)
+      teavita(roomTextQuery.error);
       return;
     }
 
-    // Loob elemendid
     const roomText = document.createElement("textarea");
     const roomCode = document.createElement("label");
     const saveBtn = document.createElement("button");
-    const container = document.createElement("div")
-    const containerNav = document.createElement("div")
-    const copyBtn = document.createElement("button")
-    const copyBtnIcon = document.createElement("span")
+    const container = document.createElement("div");
+    const containerNav = document.createElement("div");
+    const copyBtn = document.createElement("button");
+    const copyBtnIcon = document.createElement("span");
 
-    // Lisab neile omadused/klassid
     roomText.value = roomTextQuery.text;
     roomText.id = roomID;
     roomCode.textContent = roomID;
     saveBtn.textContent = "Salvesta muudatused";
 
-    container.classList.add("lisakonteiner")
-    containerNav.classList.add("lisakonteiner-nav")
-    copyBtn.classList.add("copyBtn")
-    copyBtnIcon.classList.add("material-icons") 
-    copyBtnIcon.classList.add("md-18") 
+    container.classList.add("lisakonteiner");
+    containerNav.classList.add("lisakonteiner-nav");
+    copyBtn.classList.add("copyBtn");
+    copyBtnIcon.classList.add("material-icons", "md-18");
 
-    copyBtnIcon.textContent = "content_copy"
+    copyBtnIcon.textContent = "content_copy";
 
-    // Liidab need üheks elemendiks
-    copyBtn.appendChild(copyBtnIcon)
-    containerNav.appendChild(roomCode)
-    containerNav.appendChild(copyBtn)
-    container.appendChild(containerNav)
-    container.appendChild(roomText)
-    container.appendChild(saveBtn)
+    copyBtn.appendChild(copyBtnIcon);
+    containerNav.appendChild(roomCode);
+    containerNav.appendChild(copyBtn);
+    container.appendChild(containerNav);
+    container.appendChild(roomText);
+    container.appendChild(saveBtn);
 
-    // Paneb selle sinnna HTML-i
-    pastadekonteiner.appendChild(container)
+    pastadekonteiner.appendChild(container);
 
-    // Nupude funktsioonid peavad ka olema defineeritud 
+    if (!isLastRoom) {
+      const separator = document.createElement("div");
+      separator.classList.add("separator");
+      pastadekonteiner.appendChild(separator);
+    }
+
     copyBtn.onclick = function () {
       copyContent(roomID);
-    }
+    };
 
     saveBtn.onclick = function () {
       saveRoomBtn(roomID);
     };
 
     roomCode.onclick = function () {
-      copyCode(roomID)
-    }
-
+      copyCode(roomID);
+    };
   }
 
-  // Teeb päringu andmebaasi kasutaja kõikide tubade loendist
   const myRooms = await getAllMyRooms();
 
-  // See "Kasutaja jaoks ei leitud ruume!" error pole hull, selle saab üle lasta :wink:
   if (myRooms.error != null && myRooms.error != "Kasutaja jaoks ei leitud ruume!") {
-    teavita(myRooms.error)
+    teavita(myRooms.error);
     return;
   }
 
-  // Rehkendendused, et kuvada mitu tuba kasutaja saab veel teha
+  if (myRooms.roomIds === null) {
+    return;
+  }
+
+  if (myRooms.maxRoomsPerUser === null) {
+    return;
+  }
+
   const totalRoomsCreated = myRooms.roomIds.length;
   const maxRooms = myRooms.maxRoomsPerUser;
   const roomsLeft = maxRooms - totalRoomsCreated;
 
   roomsLeftElement.textContent = roomsLeft;
 
-  // Kõiki tubade kuvamine tsükli abil
   for (let i = 0; i < myRooms.roomIds.length; i++) {
-    console.log(myRooms.roomIds[i]);
-    await addRoomToDOM(myRooms.roomIds[i]);
+    const isLastRoom = i === myRooms.roomIds.length - 1;
+    await addRoomToDOM(myRooms.roomIds[i], isLastRoom);
   }
 }
 
@@ -166,4 +187,3 @@ async function updateDOM() {
 window.addEventListener('load', async function() {
   await updateDOM();
 });
-

@@ -7,8 +7,9 @@
     font-family: monospace;
     text-align: center;
 }
+
 html {
-    background-color: rgb(60, 0, 0); 
+    background-color: rgb(60, 0, 0);
 }
 
 h1 {
@@ -42,7 +43,7 @@ a:hover {
 }
 
 button {
-    background:rgb(60, 0, 0);
+    background: rgb(60, 0, 0);
     color: blanchedalmond;
     border-radius: 3px;
     border: solid blanchedalmond 1px;
@@ -75,8 +76,9 @@ button:hover {
     gap: 5px;
 }
 
-.sisemus > div {
+.sisemus>div {
     background: transparent;
+    -webkit-backdrop-filter: sepia(90%) brightness(30%);
     backdrop-filter: sepia(90%) brightness(30%);
     border: solid blanchedalmond 1px;
     padding: 8px;

@@ -1,4 +1,4 @@
-/* Urmase poolt */
+/* Urmase poolt baas, Mihkel lisas juurde hiljem tööülesanded */
 
 /* Põhiline on navigatiooniriba, muidu eriti tööd polnud */
 
@@ -6,6 +6,7 @@
     color: blanchedalmond;
     font-family: monospace;
 }
+
 html {
     background-color: rgb(60, 0, 0); 
 }
@@ -44,4 +45,36 @@ img {
     transition-duration: 250ms;
     scale: 1.05;
     transition-timing-function: ease-in-out;
+}
+
+.contact-box {
+    background-color: rgba(255, 141, 141, 0.2);
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 2px solid blanchedalmond; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.contact-name {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.contact-email a {
+    color: blanchedalmond;
+    text-decoration: none;
+    font-size: large;
+}
+
+.contact-email a:hover {
+    color: orangered;
+}
+
+.job-description {
+    font-size: 1.1em;
+    color: #f2f2f2;
+    margin-top: 10px;
 }

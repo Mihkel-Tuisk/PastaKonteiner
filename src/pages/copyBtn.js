@@ -1,3 +1,5 @@
+// Urmase poolt
+
 // Kopeerib lõikelauale toa sisu
 function copyContent(roomID) {
     const input = document.getElementById(roomID)

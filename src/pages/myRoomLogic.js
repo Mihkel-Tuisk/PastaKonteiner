@@ -77,6 +77,8 @@ async function saveRoomBtn(roomid) {
 
   // Kontrollib, kas tekst ületab maksimaalset tähemärkide arvu
   if (roomText.length > MAX_TEXT_LENGTH) {
+    teavita(roomText.length)
+    teavita(MAX_TEXT_LENGTH)
     teavita(`Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`);
     return;
   }

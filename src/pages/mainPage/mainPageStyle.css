@@ -1,0 +1,77 @@
+* {
+    color: blanchedalmond;
+    font-family: monospace;
+    text-align: center;
+}
+html {
+    background-color: rgb(60, 0, 0); 
+}
+
+a {
+    padding: auto 10px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    text-transform: uppercase;
+    display: inline-block;
+    color: blanchedalmond;
+    font-weight: bold;
+    font-size: large;
+}
+
+a:hover {
+    color: orangered;
+    transition-duration: 250ms;
+    scale: 1.05;
+    transition-timing-function: ease-in-out;
+}
+
+
+button {
+    background:rgb(60, 0, 0);
+    color: blanchedalmond;
+    border-radius: 3px;
+    border: solid blanchedalmond 1px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.kuubikonteiner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+
+.sisemus {
+    background-image: url("../../images/wackymode-Photoroom-cropped.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    justify-self: center;
+    gap: 5px;
+}
+
+.sisemus > div {
+    background: transparent;
+    /* background-color: #ff8d8d1f; */
+    backdrop-filter: sepia(90%) brightness(30%);
+    border: solid blanchedalmond 1px;
+    padding: 8px;
+    border-radius: 7px;
+}
+
+p {
+    margin: 8px;
+}

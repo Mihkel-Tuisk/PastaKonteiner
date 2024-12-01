@@ -98,9 +98,6 @@ async function updateDOM() {
     container.appendChild(saveBtn)
     pastadekonteiner.appendChild(container)
 
-    // pastadekonteiner.appendChild(roomCode);
-    // pastadekonteiner.appendChild(roomText);
-
     copyBtn.onclick = function () {
       copyContent(roomID);
     }

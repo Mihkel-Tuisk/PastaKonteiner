@@ -27,7 +27,9 @@ async function generateRoomBtn() {
     const maxChars = await getMaxCharactersForRooms();
     MAX_TEXT_LENGTH = maxChars.maxLenght
   }
-
+  teavita(boxContent.length)
+  teavita(MAX_TEXT_LENGTH)
+  
   // Kontrollib, kas tekst ületab maksimaalset tähemärkide arvu
   if (boxContent.length > MAX_TEXT_LENGTH) {
     teavita(`Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`);
@@ -75,10 +77,11 @@ async function saveRoomBtn(roomid) {
     MAX_TEXT_LENGTH = maxChars.maxLenght
   }
 
+  teavita(roomText.length)
+  teavita(MAX_TEXT_LENGTH)
+
   // Kontrollib, kas tekst ületab maksimaalset tähemärkide arvu
   if (roomText.length > MAX_TEXT_LENGTH) {
-    teavita(roomText.length)
-    teavita(MAX_TEXT_LENGTH)
     teavita(`Tekst ei tohi ületada ${MAX_TEXT_LENGTH} tähemärki!`);
     return;
   }

@@ -21,3 +21,7 @@ See projekt on litsentseeritud **MIT** litsentsi alusel.
 Kui teil on küsimusi või soovite panustada, võtke meiega ühendust!
 
 Veebileht on hostitud https://pastakonteiner.live/ kuni projekt on esitatud praktikumis.
+Veebileht on hostitud ka https://kodu.ut.ee/~mihkeltuisk/Pastakonteiner/src/pages/myRoom/index.html
+
+NB! Veebileht ei tööta kui https://pastakonteiner.live/ ei tööta! Seal on hostitud backend!
+Lehe korrektse töötamiseks peab ise hostima backendi.
